@@ -72,16 +72,20 @@ appData.settings.updateUserAvatarService = "updateUserAvatar.php";
 appData.settings.uploadMediaNonNativeService = "uploadMediaNonNative.php";
 appData.settings.updateActivityService = "updateActivity.php";
 appData.settings.getUserMediaService = "getUserMedia.php";
+appData.settings.getAllChallengesService = "getAllChallenges.php";
+appData.settings.getOldActivitiesService = "getOldActivities.php";
+appData.settings.getAllMediaService = "getAllMedia.php";
 
 
 /* Jquery Document Read */
 $(document).on("ready", function () {
 
   appData.router = new appData.routers.AppRouter();
-  appData.utils.templates.load(["HomeView", "DashboardActivityView", "EditView"],
+  appData.utils.templates.load(["HomeView", "DashboardActivityView", "EditView", "UsersView", "DashboardUserView", "LoadingView", "ChallengesView", "DashboardChallengesView", "NewChallengeView", "DashboardSportView", "SportsView", "NewSportView", "MediaView", "DashboardMediaView", "LocationsView", "DashboardLocationView"],
 
   // backbone loaded
   function () {
+
 
       // New services class
       appData.services.phpService = new appData.services.PhpServices();
@@ -106,6 +110,7 @@ $(document).on("ready", function () {
       appData.events.getBuurtenEvent = _.extend({}, Backbone.Events);
       appData.events.updateActivitiesEvent = _.extend({}, Backbone.Events);
 
+      appData.settings.dataLoaded = false;
 
       // init backbone
       Backbone.history.start();

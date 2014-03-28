@@ -5,7 +5,7 @@
     </a>
     <div class="cl-title"><%= title %></div>
     <a href="javascript:;" class="cl-btn"  id="shareButton">
-      <i class="entypo-icon hide">&#59157;</i>
+      <i class="entypo-icon ">&#59157;</i>
     </a>
   </div>
 
@@ -14,6 +14,7 @@
       <a href="javascript:;" id="updateButton" class="cl-btn">Wijzig deze activiteit</a>
     </div>
 
+  <div class="cl-content">
     <div id="activity-header">
 
       <div id="activityMap">
@@ -37,25 +38,24 @@
       <a data="#mediaContent" id="mediaButton" class="cl-btn">Media</a>
       <a data="#messagesContent" class="cl-btn">Berichten</a>
     </div>
-  <div class="cl-content">
+
+
     <div id="activityContent">
 
     </div>
+  </div>
 
-
-
+  
     <div class="hide" id="popover" data-element-to-be-toggled="popover-context" data-element-to-be-closed="popover-context">
       <div class="cl-popover align-center pop-from-bottom">
       <div class="cl-article padded">
         <ul>
-          <li><a href="javascript:;">Deel op Twitter</a></li>
-          <li><a href="javascript:;">Deel op Facebook</a></li>
+          <li><a href="javascript:;" id="facebookShareButton" class="cl-btn flat-green">Delen op Facebook</a></li>
         </ul>
-      <a href="javascript:;" id="popover-close" class="cl-btn" data-close-element="popover-context">Close</a>
+      <a href="javascript:;" id="popover-close" class="cl-btn" data-close-element="popover-context">Sluit</a>
       </div>
       </div>
       <div class="cl-modal-backdrop"></div>
     </div>
-  </div>
 </div>
 

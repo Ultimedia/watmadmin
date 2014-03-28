@@ -13,7 +13,7 @@ appData.services.FacebookServices = Backbone.Model.extend({
 	        try {
 	        	FB.init({ 
 	        		appId: "595730207182331", 
-	        		nativeInterface: CDV.FB 
+	        		nativeInterface: CDV.FB
 	        	});
 
 	        	appData.settings.facebookConnect = true;
@@ -36,7 +36,6 @@ appData.services.FacebookServices = Backbone.Model.extend({
 	},
 
 	facebookUserToSQL: function(){
-
 		$.ajax({
 			url:appData.settings.servicePath + appData.settings.facebookUserToSQL,
 			type:'POST',
@@ -91,6 +90,27 @@ appData.services.FacebookServices = Backbone.Model.extend({
 			alert("Je kan nu niet inloggen met Facebook, probeer het later opnieuw");
 		   }
 	    },{ scope: "email" });
+	},
+
+	facebookWallpost: function(activityModel){
+
+		var params = {
+			method: 'feed',
+			name: activityModel.attributes.title,
+			link: appData.settings.rootPath + '#activity/' + activityModel.attributes.activity_id,
+			caption: 'We App To Move',
+			description: activityModel.attributes.description
+		};
+
+		FB.ui(params, function(response){ 
+			if (response && response.post_id) {
+		      alert('Post was published.');
+		    } else {
+		      alert('Post was not published.');
+		    }
+
+			Backbone.trigger('FacebookWallPostCompleteEvent');
+		});
 	},
 
 	getProfileData:function(){

@@ -3,10 +3,10 @@ appData.views.ActivityDetailView = Backbone.View.extend({
     initialize: function () {
       console.log('----- In the initialize of ActivityDetailView -----');
       appData.views.ActivityDetailView.model = this.model;
-      
+      appData.views.ActivityDetailView.wallPostCompleteHandler = this.wallPostCompleteHandler;
 
-        Backbone.on('networkFoundEvent', this.networkFoundHandler);
-        Backbone.on('networkLostEvent', this.networkLostHandler);
+      Backbone.on('networkFoundEvent', this.networkFoundHandler);
+      Backbone.on('networkLostEvent', this.networkLostHandler);
     }, 
 
     // phonegap device online
@@ -32,6 +32,8 @@ appData.views.ActivityDetailView = Backbone.View.extend({
       if(appData.models.userModel.get("user_id") == this.model.get("user_id")){
         $('#editPanel', appData.settings.currentPageHTML).removeClass('hide');
       }
+
+      var elementPosition = $('#activityDetailTabs', appData.settings.currentPageHTML).offset();
 
       this.addMap();
 
@@ -78,7 +80,22 @@ appData.views.ActivityDetailView = Backbone.View.extend({
       "click #backButton": "backHandler",
       "click #shareButton": "sharePopopverClickHandler",
       "click #popover-close": "sharePopopverClickHandler",
-      "click #updateButton": "updateButtonClickHandler"
+      "click #updateButton": "updateButtonClickHandler",
+      "click #facebookShareButton": "facebookShareButtonClickHandler"
+    },
+
+    facebookShareButtonClickHandler: function(){
+      Backbone.on('FacebookWallPostCompleteEvent', appData.views.ActivityDetailView.wallPostCompleteHandler);
+      
+      // share doesn't work on the device at the moment
+      if(appData.settings.native){
+        appData.services.facebookService.facebookWallpost(appData.views.ActivityDetailView.model);
+      }
+    },
+
+
+    wallPostCompleteHandler: function(){
+      Backbone.off('FacebookWallPostCompleteEvent');
     },
 
     updateButtonClickHandler: function(){
@@ -86,7 +103,7 @@ appData.views.ActivityDetailView = Backbone.View.extend({
     },
 
     sharePopopverClickHandler: function(e){
-        $('#popover', appData.settings.currentPageHTML).toggleClass('hide');
+      $('#popover', appData.settings.currentPageHTML).toggleClass('hide');
     },
 
     backHandler: function(){

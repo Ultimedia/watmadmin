@@ -45,6 +45,19 @@ appData.services.PhpServices = Backbone.Model.extend({
 		});
   	},
 
+  	getAllMedia: function(activityModel){
+  		$.ajax({
+			url:appData.settings.servicePath + appData.settings.getAllMediaService,
+			type:'POST',
+			dataType:'json',
+			success:function(data){
+
+				appData.collections.mediaCollection = new MediaCollection(data);
+				Backbone.trigger("mediaLoadSuccesHandler", "media");
+			}
+		});
+  	},
+
 	getActivities: function(){
 
   		$.ajax({
@@ -57,6 +70,21 @@ appData.services.PhpServices = Backbone.Model.extend({
         	}
     	});
   	},
+
+	getAcitvitiesArchive: function(){
+
+  		$.ajax({
+     		url:appData.settings.servicePath + appData.settings.getOldActivitiesService,
+     		type:'GET',
+     		dataType:'json',
+     		success:function(data){
+    			appData.collections.activitiesArchive = new ActivitiesCollection(data);
+				Backbone.trigger('getActivitiesArchiveHandler');
+        	}
+    	});
+  	},
+
+
 
   	getSports: function(){
         $.ajax({
@@ -84,10 +112,9 @@ appData.services.PhpServices = Backbone.Model.extend({
 
   	getChallenges: function(){
   		$.ajax({
-			url:appData.settings.servicePath + appData.settings.getChallengesService,
+			url:appData.settings.servicePath + appData.settings.getAllChallengesService,
 			type:'POST',
 			dataType:'json',
-			data: "user_id="+appData.models.userModel.attributes.user_id,
 			success:function(data){
 				appData.collections.challenges = new ChallengesCollection(data);
          		Backbone.trigger('getChallengesHandler', "challenges");
@@ -127,7 +154,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 			dataType:'json',
 			success:function(data){
 				appData.collections.locations = new LocationsCollection(data);
-				appData.events.getLocationsSuccesEvent.trigger("getLocationsSuccesHandler");
+				Backbone.trigger("getLocationsSuccesHandler", "locations");
 
 			}
 		});

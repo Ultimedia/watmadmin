@@ -17,7 +17,6 @@ var appData = {
   storage: {}
 };
 
-
 // settings
 appData.settings.rootPath = "http://ultimedia.biz/";
 appData.settings.servicePath =  appData.settings.rootPath + "services/";
@@ -25,6 +24,7 @@ appData.settings.imagePath = appData.settings.rootPath + "common/uploads/";
 appData.settings.badgesPath = appData.settings.rootPath + "common/badges/";
 appData.settings.iconPath = appData.settings.rootPath + "public/css/assets/";
 appData.settings.sportsPath = appData.settings.rootPath + "common/sports/";
+appData.settings.promoPath = appData.settings.rootPath + "common/promo/";
 
 
 appData.settings.getUserService = "getUser.php";
@@ -85,6 +85,34 @@ $(document).on("ready", function () {
   document.addEventListener("resume", onResumeHandler, false);
   document.addEventListener("offline", deviceOfflineHandler, false);
   document.addEventListener("online", deviceOnlineHandler, false);
+  document.addEventListener("showkeyboard", showKeyboardHandler, false);
+  document.addEventListener("hidekeyboard", hideKeyboardHandler, false);
+  window.addEventListener('orientationchange', doOnOrientationChange);
+
+  function doOnOrientationChange()
+  {
+    switch(window.orientation) 
+    {  
+      case -90:
+      case 90:
+        $('#container').addClass('landscape').removeClass('portrait');
+        break; 
+      default:
+        $('#container').addClass('portrait').removeClass('landscape');
+        break; 
+    }
+  }
+
+
+  // show the keyboard
+  function showKeyboardHandler(){
+    $('#container').addClass('keyboard');
+  }
+
+  // hide keyboard
+  function hideKeyboardHandler(){
+    $('#container').removeClass('keyboard');
+  }
 
   // phonegap device ready
   function onDeviceReadyHandler() {
@@ -176,7 +204,8 @@ $(document).on("ready", function () {
         appData.settings.badgesPath = appData.settings.rootPath + "common/badges/";
         appData.settings.iconPath = appData.settings.rootPath + "public/css/assets/";
         appData.settings.sportsPath = appData.settings.rootPath + "common/sports/";
-  
+        appData.settings.promoPath = appData.settings.rootPath + "common/promo/";
+
 
         appData.settings.native = true;
         appData.settings.pictureSource = navigator.camera.PictureSourceType;

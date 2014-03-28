@@ -1,48 +1,29 @@
 appData.views.HomeView = Backbone.View.extend({
     initialize: function () {
-      appData.settings.getActivitiesHandler = this.getActivitiesHandler;
+        Backbone.on('getActivitiesHandler', this.getActivitiesHandler);
+        appData.services.phpService.getActivities();
+
+        Backbone.on('getActivitiesArchiveHandler', this.getActivitiesArchiveHandler);
+        appData.services.phpService.getAcitvitiesArchive();
     },
 
-    loadedDataHandler: function(payload){
-        switch(payload){
-          case "users":  
-            Backbone.off('getUsersHandler'); 
-            appData.settings.usersLoaded = true; 
-          break;
-          case "sports":  
-            Backbone.off('getSportsHandler'); 
-            appData.settings.sportsLoaded = true;
-          break;
-        }
-
-        if(appData.settings.usersLoaded  && appData.settings.sportsLoaded){
-          Backbone.off('getSportsHandler');
-          Backbone.off('getUsersHandler');
-
-          Backbone.on('getActivitiesHandler', appData.settings.getActivitiesHandler);
-          appData.services.phpService.getActivities();
-        }
-    },
       
     render: function() {
     	this.$el.html(this.template());
     	appData.settings.currentPageHTML = this.$el;
 
-      var sportsLoaded, usersLoaded, challengesLoaded = false;
+      // initialise modal
+      $('#remove-modal').modal();
 
-      Backbone.on('getSportsHandler', this.loadedDataHandler)
-      appData.services.phpService.getSports();
-
-      Backbone.on('getUsersHandler', this.loadedDataHandler)
-      appData.services.phpService.getUsers();
 
       return this;
     },
 
     getActivitiesHandler: function(){
-      Backbone.off('getActivitiesHandler');
+      Backbone.off('loadComplete');
 
       // show activities
+      $('#activity-table tbody').empty();
       appData.collections.activities.each(function(activity) {
         console.log(activity)
 
@@ -50,5 +31,27 @@ appData.views.HomeView = Backbone.View.extend({
 
         $('#activity-table tbody', appData.settings.currentPageHTML).append(aView.render().$el);
       });
-  }
+
+      // trigger remove modal events
+      $('#remove-modal').on('show.bs.modal', function (e) {
+
+        console.log(e);
+
+      });
+    },
+
+    getActivitiesArchiveHandler: function(){
+      console.log(appData.collections)
+
+      $('#activity-archive-table tbody').empty();
+      appData.collections.activitiesArchive.each(function(activity) {
+        var aView = new appData.views.DashboardActivityView({model : activity});
+
+        $('#activity-archive-table tbody', appData.settings.currentPageHTML).append(aView.render().$el);
+      });
+
+      // trigger remove modal events
+      $('#remove-modal').on('show.bs.modal', function (e) {
+      });
+    }
 });

@@ -20,7 +20,6 @@ body {
     width:100%;
 }
 
-
 .clear{
   clear: both;
 }
@@ -748,6 +747,36 @@ input.error{
   }
 }
 
+#container.landscape{
+  #dashboard{
+    height: 100%;
+
+    #titleBar, #searchBar, #fullScreenButton, .cl-content, #mainNav, #sortBar{
+      display: none;
+    }
+
+    #map_canvas{
+      height: 100%;
+      border-bottom: 3px solid #d95555;
+      border-top: 3px solid #d95555;
+      background: #d95555;
+    }
+  }
+
+  #activityDetail{
+
+    #activityDetailTabs, .cl-content{
+      display: none;
+    } 
+
+    #activity-header, #activityMap{
+      height: 100%;
+    }
+  }
+}
+
+
+
 
 
 
@@ -903,6 +932,26 @@ input.error{
   
   background: #31424f;
 
+  #popover{
+
+    .cl-popover {
+      bottom: 0;
+      width: 100%;
+      left: 0;
+      border-radius: 0;
+
+      ul{
+        margin: 20px 0;
+        padding: 0;
+
+        li{
+          list-style-type: none;
+          margin: 0;
+        }
+      }
+    }
+  }
+
   .user_avatar{
     display: inline-block;
     border-radius: 42px;
@@ -977,7 +1026,7 @@ input.error{
     padding: 0 5px 0 5px;
     background: #31424f;
     overflow-y: auto;
-    height: calc(100% - 272px);
+    height: calc(100% - 54px);
 
     #navigateButton{
 
@@ -988,6 +1037,8 @@ input.error{
       position: relative;
       overflow: auto;
       height: 100%;
+      margin-left: 5px;
+      margin-right: 5px;
     }
 
     #praktischContent, #mediaContent, #messagesContent ul{
@@ -1205,6 +1256,18 @@ input.error{
       }
     }
   }
+}
+
+#container.keyboard{
+  #createActivity{
+    .cl-content{
+      height: calc(100% - 122px);
+    }
+
+    .button-container{
+      display: none;
+    }
+  } 
 }
 
 
@@ -1434,14 +1497,14 @@ input.error{
   .cl-content{
     padding: 10px;
 
-
-    h4{
+    h3{
       font-family: "source_sans_prosemibold";
       text-transform: uppercase;
       font-size: 12px;
-      text-align:left;
+      text-align:center;
+      padding: 10px;
+      display: block;
     }
-
 
     #mediaContainer{
       img{
@@ -1450,8 +1513,6 @@ input.error{
       }
     }
   }
-
-
 }
 
 
@@ -1464,7 +1525,6 @@ input.error{
         height: calc(100% - 54px);
 
     }
-
 }
 
 

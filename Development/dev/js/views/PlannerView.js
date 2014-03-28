@@ -82,8 +82,6 @@ appData.views.PlannerView = Backbone.View.extend({
   },
 
   getInvitationsHandler: function(){
-    alert('render');
-
     Backbone.off('myPlannedActivitiesLoadedHandler');
     Backbone.off('myActivitiesLoadedHandler');
     Backbone.off('getInvitationsHandler');
