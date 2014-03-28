@@ -1,0 +1,47 @@
+<div class="cl-page" id="settings">
+  <div class="cl-bar-title">
+      <a href="#profile" class="cl-btn" data-transition="slide-out">
+        <i class="entypo-icon">&#59237;</i>
+      </a>
+    <div class="cl-title">Instellingen</div>
+  </div>
+  <div class="cl-content">
+
+    <ul>
+    <li>
+
+      <div id="favouriteSportSection">
+        <h4>Jouw favoriete sporten</h4>
+        <div id="favouriteSportList">
+
+        </div>
+        <a href="#sportselector" id="sportSelectorButton" class="cl-btn flat-green clear">Wijzig favoriete sporten</a>
+      </div>
+
+      </li>
+
+      <li>
+
+      <div id="avatarSection">
+        <h4>Jouw profielfoto</h4>
+        <span id="userAvatar" style="background: url('<%= imagePath %><%= user.avatar %>') no-repeat;     -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; "></span>
+        <span id="avatarFunctionality">
+          <a href="javascript:;" class=" cl-btn flat-green" id="changeAvatar">Nieuwe foto</a>
+        </span>
+      </div>
+
+      <form id="mediaForm" action="javascript:;" methode="POST">
+        <input type="file" name="file" class="hide" id="nonNativeFileField" accept="image/gif, image/jpeg, image/png"/>
+      </form>
+
+    </li>
+    <li>
+        <h4>Afmelden</h4>
+
+       <a href="javascript:;" id="signOutButton" class="cl-btn flat-green">Afmelden</a>
+
+     </li>
+   </ul>
+  </div>
+</div>
+
