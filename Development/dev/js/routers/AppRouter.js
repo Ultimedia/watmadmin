@@ -172,11 +172,7 @@ appData.routers.AppRouter = Backbone.Router.extend({
     },
 
     createUser: function () {
-        if(appData.settings.userLoggedIn){
-            appData.slider.slidePage(new appData.views.CreateUserView({model: appData.models.userModel}).render().$el);
-        }else{
-
-        }
+        appData.slider.slidePage(new appData.views.CreateUserView({model: appData.models.userModel}).render().$el);
     },
     
     navigater: function (id) {

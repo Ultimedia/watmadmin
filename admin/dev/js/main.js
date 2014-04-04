@@ -22,12 +22,13 @@ var appData = {
 // settings
 appData.settings.rootPath = "http://localhost/admin/";
 appData.settings.servicePath = "../services/";
-appData.settings.imagePath = appData.settings.rootPath + "common/uploads/";
-appData.settings.badgesPath = appData.settings.rootPath + "common/badges/";
-appData.settings.iconPath = appData.settings.rootPath + "public/css/assets/";
-appData.settings.sportsPath = appData.settings.rootPath + "common/sports/";
-appData.settings.promoPath = appData.settings.rootPath + "common/promo/";
-
+appData.settings.imagePath = "../common/uploads/";
+appData.settings.badgesPath = "../common/badges/";
+appData.settings.iconPath = "public/css/assets/";
+appData.settings.sportsPath = "../common/sports/";
+appData.settings.promoPath = "../common/promo/";
+appData.settings.sportsPathUpload =  "common/sports/";
+appData.settings.serverPath = "http://ultimedia.biz/watm/common/uploads/";
 
 appData.settings.getUserService = "getUser.php";
 appData.settings.getUsersService = "getUsers.php";
@@ -60,7 +61,6 @@ appData.settings.updateAvatarService = "updateAvatar.php";
 appData.settings.getMyChallengesService = "getMyChallenges.php";
 appData.settings.joinChallengeService = "joinChallenge.php";
 appData.settings.getBadgesService = "getBadges.php";
-appData.settings.updateChallengeService = "updateChallengeScore.php";
 appData.settings.addSportService = "addSport.php";
 appData.settings.getFriendsService = "getMyFriends.php";
 appData.settings.addFriendService = "addFriend.php";
@@ -75,20 +75,41 @@ appData.settings.getUserMediaService = "getUserMedia.php";
 appData.settings.getAllChallengesService = "getAllChallenges.php";
 appData.settings.getOldActivitiesService = "getOldActivities.php";
 appData.settings.getAllMediaService = "getAllMedia.php";
+appData.settings.removeActivityService = "removeActivity.php";
+appData.settings.removeUserService = "removeUser.php";
+appData.settings.removeLocationService = "removeLocation.php";
+appData.settings.removeSportService= "removeSport.php";
+appData.settings.removeMediaService = "removeMedia.php";
+appData.settings.removeChallengeService = "removeChallenge.php";
+appData.settings.uploadSportAvatarService = "uploadSportNonNative.php";
+appData.settings.uploadSportNonNative = "uploadSportAvatar.php";
+appData.settings.updateSportService = "updateSport.php";
+appData.settings.uploadChallengeNonNative = "uploadCallengeNonNative.php";
+appData.settings.addChallengeService = "addChallenge.php";
+appData.settings.updateChallengeService = "updateChallenge.php";
+appData.settings.uploadMediaNonNativeAdminService = "uploadMediaNonNativeAdmin.php";
+appData.settings.updateUserService = "updateUser.php";
+appData.settings.removeUserFromActivityService = "removeUserFromActivity.php";
+appData.settings.getAdminService = "getAdmin.php";
+
+
+appData.settings.defaultLocation = [51.20935, 3.22470];
 
 
 /* Jquery Document Read */
 $(document).on("ready", function () {
-
   appData.router = new appData.routers.AppRouter();
-  appData.utils.templates.load(["HomeView", "DashboardActivityView", "EditView", "UsersView", "DashboardUserView", "LoadingView", "ChallengesView", "DashboardChallengesView", "NewChallengeView", "DashboardSportView", "SportsView", "NewSportView", "MediaView", "DashboardMediaView", "LocationsView", "DashboardLocationView"],
+  appData.utils.templates.load(["HomeView", "DashboardActivityView", "ActivityEditView", "UsersView", "DashboardUserView", "LoadingView", "ChallengesView", "DashboardChallengesView", "NewChallengeView", "DashboardSportView", "SportsView", "NewSportView", "MediaView", "DashboardMediaView", "LocationsView", "DashboardLocationView", "SportEditView", "UserEditView", "ChallengeEditView", "LocationEditView", "DashboardActivityArchiveView", "NewActivityView", "NewLocationView", "SettingsView", "LoginView"],
 
   // backbone loaded
   function () {
 
-
       // New services class
       appData.services.phpService = new appData.services.PhpServices();
+      appData.services.utilService = new appData.services.UtilServices();
+      appData.services.facebookService = new appData.services.FacebookServices();
+      appData.services.facebookService.facebookConnect();
+
       appData.events.getMessagesSuccesEvent = _.extend({}, Backbone.Events);
       appData.events.getSportsSuccesEvent = _.extend({}, Backbone.Events);
       appData.events.getChallengesSuccesEvent = _.extend({}, Backbone.Events);

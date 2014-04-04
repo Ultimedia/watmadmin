@@ -16,6 +16,7 @@ appData.views.DashboardView = Backbone.View.extend({
         // update activities collection
         appData.views.DashboardView.markers = [];
         appData.views.DashboardView.clearMarkers = this.clearMarkers;
+        appData.views.DashboardView.setMarkers = this.setMarkers;
 
         // update the activities if we have a network connection
         if(appData.settings.native){
@@ -218,6 +219,7 @@ appData.views.DashboardView = Backbone.View.extend({
 
 
         var myLocation = appData.models.userModel.attributes.current_location;
+
         if(myLocation !== "" || myLocation !== null){
             myLocation = appData.models.userModel.attributes.current_location.split(',');
         }else{
@@ -248,16 +250,27 @@ appData.views.DashboardView = Backbone.View.extend({
             });
         appData.views.DashboardView.markers.push(userMarker);
 
-        if(appData.settings.native  &&  appData.settings.network){
+        if(navigator.geolocation &&  appData.settings.network){
+            alert('get loc');
+
             Backbone.on('getMyLocationHandler', this.getMyLocationHandler);
             appData.services.utilService.getLocationService("dashboard");
         }
     },
 
     getMyLocationHandler: function(position){
+            alert('ja');
+
+
         Backbone.off('getMyLocationHandler');
         if(position){
+
+            var myLocation = location.coords.latitude + "," + location.coords.longitude;
+            appData.models.userModel.attributes.current_location = myLocation;
+            appData.views.DashboardView.locations = myLocation;
+
             appData.views.DashboardView.map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude), 13);
+            appData.views.DashboardView.setMarkers();
         }
     },
 
@@ -289,6 +302,8 @@ appData.views.DashboardView = Backbone.View.extend({
           icon: appData.settings.iconPath + "my-map-icon@x2.png"
         });
         appData.views.DashboardView.markers.push(userMarker);
+    
+        alert('hier');
     },
 
     clearMarkers: function(){

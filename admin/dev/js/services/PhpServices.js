@@ -7,19 +7,40 @@ appData.services.PhpServices = Backbone.Model.extend({
 
 	},
 
-	updateActivity: function(activityModel){
+	adminlogin: function(user){
+
+		$.ajax({
+			url:appData.settings.servicePath + appData.settings.getAdminService,
+			type:'POST',
+			dataType:'json',
+			data: "email="+user.attributes.email+"&password="+user.attributes.password,
+			timeout:60000,
+			success:function(data){
+
+				if(data.status === true){
+					Backbone.trigger('loginSucces');
+				}else{
+					Backbone.trigger('loginError');
+				}
+			},
+			error: function(){
+			}
+		});
+  	},
+
+	createActivity: function(activityModel){
 		var that = this;
 
 		$.ajax({
-        url:appData.settings.servicePath + appData.settings.updateActivityService,
+        url:appData.settings.servicePath + appData.settings.createActivityService,
         type:'POST',
         dataType:'json',
-        data: "location_id="+activityModel.attributes.location_id+"&activity_id="+activityModel.attributes.activity_id+"&title="+activityModel.attributes.title+"&sport_id="+activityModel.attributes.sport_id+"&description="+activityModel.attributes.description+"&date="+activityModel.attributes.date+"&time="+activityModel.attributes.time+"&stopTime="+activityModel.attributes.stopTime+"&user_id="+appData.models.userModel.attributes.user_id+"&participants="+activityModel.attributes.participants,
+        data: "location_id="+activityModel.attributes.location_id+"&title="+activityModel.attributes.title+"&sport_id="+activityModel.attributes.sport_id+"&description="+activityModel.attributes.description+"&date="+activityModel.attributes.date+"&time="+activityModel.attributes.time+"&stopTime="+activityModel.attributes.stopTime+"&user_id="+0+"&participants="+activityModel.attributes.participants,
         timeout:60000,
 	        success:function(data){
-	        	console.log(data);
 	        	if(data.value === true){
-	        		Backbone.trigger('activityUpdated', data.activity_id);
+	        		Backbone.trigger('activityCreated', data.activity_id);
+	        		appData.services.avatarService.addScore("create");
 	        	}else{
 
 	        	}
@@ -30,6 +51,38 @@ appData.services.PhpServices = Backbone.Model.extend({
     	});
 	},
 
+	updateActivity: function(activityModel){
+		var that = this;
+
+		console.log(activityModel.attributes);
+
+		$.ajax({
+        url:appData.settings.servicePath + appData.settings.updateActivityService,
+        type:'POST',
+        dataType:'json',
+        data: "location_id="+activityModel.attributes.location_id+
+        "&activity_id="+activityModel.attributes.activity_id+
+        "&title="+activityModel.attributes.title+
+        "&sport_id="+activityModel.attributes.sport_id+
+        "&description="+activityModel.attributes.description+
+        "&date="+activityModel.attributes.date+
+        "&time="+activityModel.attributes.time+
+        "&stopTime="+activityModel.attributes.stopTime+
+        "&user_id="+activityModel.attributes.user_id+
+        "&participants="+activityModel.attributes.participants,
+	        success:function(data){
+	        	console.log(data);
+	        	if(data.value === true){
+	        		Backbone.trigger('activityUpdatedHandler', data.activity_id);
+	        	}else{
+
+	        	}
+	        },
+	        error: function(){
+	        	alert('errr');
+	        }
+    	});
+	},
 
   	getMedia: function(activityModel){
   		$.ajax({
@@ -66,7 +119,7 @@ appData.services.PhpServices = Backbone.Model.extend({
      		dataType:'json',
      		success:function(data){
     			appData.collections.activities = new ActivitiesCollection(data);
-					Backbone.trigger('getActivitiesHandler');
+					Backbone.trigger('getActivitiesHandler', 'activities');
         	}
     	});
   	},
@@ -79,7 +132,7 @@ appData.services.PhpServices = Backbone.Model.extend({
      		dataType:'json',
      		success:function(data){
     			appData.collections.activitiesArchive = new ActivitiesCollection(data);
-				Backbone.trigger('getActivitiesArchiveHandler');
+				Backbone.trigger('getActivitiesArchiveHandler', 'activitiesArchive');
         	}
     	});
   	},
@@ -154,7 +207,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 			dataType:'json',
 			success:function(data){
 				appData.collections.locations = new LocationsCollection(data);
-				Backbone.trigger("getLocationsSuccesHandler", "locations");
+				Backbone.trigger("getLocationsHandler", "locations");
 
 			}
 		});
@@ -239,33 +292,291 @@ appData.services.PhpServices = Backbone.Model.extend({
 				Backbone.trigger('joinedChallengeHandler');
 				appData.services.avatarService.addScore("challenge");
 			}, error: function(){
-				alert('errro');
+				alert('error');
 			}
 		});
   	},
 
-  	updateChallenge: function(challenge_id, status){
-  		$.ajax({
-			url:appData.settings.servicePath + appData.settings.updateChallengeService,
-			type:'POST',
-			dataType:'json',
-			data: "user_id="+appData.models.userModel.attributes.user_id+"&challenge_id="+challenge_id+"&status="+status,
-			success:function(data){
-				Backbone.trigger('updateChallengeScore');
-			}
-  		});
-  	},
-
-  	addSport: function(sport_title, description, icon){
+  	addSport: function(sportModel){
 
   		$.ajax({
 			url:appData.settings.servicePath + appData.settings.addSportService,
 			type:'POST',
 			dataType:'json',
-			data: "sport_title="+sport_title+"&description="+description+"&icon="+icon,
+			data: "icon="+sportModel.attributes.icon+"&sport_title="+sportModel.attributes.sport_title+"&description="+"",
 			success:function(data){
+				console.log(data);
 				Backbone.trigger('addedSportHandler', data);
 			}
   		});
-  	}
+  	},
+
+  	addChallenge: function(challengeModel){
+
+  		console.log(challengeModel);
+
+  		$.ajax({
+			url:appData.settings.servicePath + appData.settings.addChallengeService,
+			type:'POST',
+			dataType:'json',
+			data: "title="+challengeModel.attributes.title+"&deadline="+challengeModel.attributes.deadline+"&badge_url="+challengeModel.attributes.badge_url+"&challengeData="+JSON.stringify(challengeModel.attributes.challengeData)+"&description="+challengeModel.attributes.description,
+			success:function(data){
+				console.log(data);
+				Backbone.trigger('addedChallengeHandler');
+			}
+  		});
+  	},
+
+  	updateChallenge: function(challengeModel){
+
+
+  		$.ajax({
+			url:appData.settings.servicePath + appData.settings.updateChallengeService,
+			type:'POST',
+			dataType:'json',
+			data: "challenge_id=" + challengeModel.attributes.challenge_id +"&title="+challengeModel.attributes.title+"&deadline="+challengeModel.attributes.deadline+"&badge_url="+challengeModel.attributes.badge_url+"&challengeData="+JSON.stringify(challengeModel.attributes.challengeData)+"&description="+challengeModel.attributes.description,
+			success:function(data){
+				console.log(data);
+				Backbone.trigger('updateChallengeHandler');
+			}
+  		});
+  	},
+
+
+  	updateUser: function(userModel){
+
+
+  		$.ajax({
+			url:appData.settings.servicePath + appData.settings.updateUserService,
+			type:'POST',
+			dataType:'json',
+			data: "user_id=" + userModel.attributes.user_id +"&name="+userModel.attributes.name+"&gender="+userModel.attributes.gender+"&avatar="+userModel.attributes.avatar+"&age="+userModel.attributes.age+"&admin="+userModel.attributes.admin,
+			success:function(data){
+
+				console.log(data);
+				Backbone.trigger('userUpdatedHandler');
+			}
+  		});
+  	},
+
+
+  	removeActivity: function(activity_id){
+  		$.ajax({
+			url:appData.settings.servicePath + appData.settings.removeActivityService,
+			type:'POST',
+			dataType:'json',
+			data: "activity_id="+activity_id,
+			success:function(data){
+				Backbone.trigger('removeActivityHandler');
+			}
+  		});
+  	},
+
+  	removeUser: function(user_id){
+
+  		$.ajax({
+			url:appData.settings.servicePath + appData.settings.removeUserService,
+			type:'POST',
+			dataType:'json',
+			data: "user_id="+user_id,
+			success:function(data){
+				Backbone.trigger('removeUserHandler');
+			}
+  		});
+  	},
+
+  	removeLocation: function(location_id){
+		$.ajax({
+			url:appData.settings.servicePath + appData.settings.removeLocationService,
+			type:'POST',
+			dataType:'json',
+			data: "location_id="+location_id,
+			success:function(data){
+				Backbone.trigger('removeLocationHandler');
+			}
+		});
+  	},
+
+  	removeSport: function(sport_id){
+
+		$.ajax({
+			url:appData.settings.servicePath + appData.settings.removeSportService,
+			type:'POST',
+			dataType:'json',
+			data: "sport_id="+sport_id,
+			success:function(data){
+				Backbone.trigger('removeSportHandler');
+			}
+		});
+  	},
+
+  	removeMedia: function(media_id){
+
+		$.ajax({
+			url:appData.settings.servicePath + appData.settings.removeMediaService,
+			type:'POST',
+			dataType:'json',
+			data: "media_id="+media_id,
+			success:function(data){
+				Backbone.trigger('removeMediaHandler');
+			}
+		});
+  	},
+
+  	removeChallenge: function(challenge_id){
+		$.ajax({
+			url:appData.settings.servicePath + appData.settings.removeChallengeService,
+			type:'POST',
+			dataType:'json',
+			data: "challenge_id="+challenge_id,
+			success:function(data){
+				Backbone.trigger('removeChallengeHandler');
+			}
+		});
+  	},
+
+  	uploadSportAvatar: function(files){
+		$.ajax({
+			url:appData.settings.servicePath + appData.settings.uploadSportNonNative + "?files",
+			type:'POST',
+			cache: false,
+			dataType:'json',
+			data: files,
+			processData: false, // Don't process the files
+			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+		    success: function(data, textStatus, jqXHR)
+		    {
+		    	if(typeof data.error === 'undefined')
+		    	{
+		    		// Success so call function to process the form
+		    		console.log(data);
+		    		Backbone.trigger('fileUploadedEvent', data);
+		    	}
+		    	else
+		    	{
+	    			Backbone.trigger('fileErrorEvent');		    		
+		    		// Handle errors here
+		    		console.log('ERRORS: ' + data.error);
+		    	}
+		    },
+		    error: function(jqXHR, textStatus, errorThrown)
+		    {
+	    		Backbone.trigger('fileErrorEvent');
+		    	console.log('ERRORS: ' + textStatus);
+		    	// STOP LOADING SPINNER
+
+                alert('Het bestand dat je hebt gekozen is te groot, verklein het bestand en probeer opnieuw');
+	
+		    }
+		});	
+    },
+
+  	uploadChallengeAvatar: function(files){
+		$.ajax({
+			url:appData.settings.servicePath + appData.settings.uploadChallengeNonNative + "?files",
+			type:'POST',
+			cache: false,
+			dataType:'json',
+			data: files,
+			processData: false, // Don't process the files
+			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+		    success: function(data, textStatus, jqXHR)
+
+		    	if(typeof data.error === 'undefined')
+		    	{
+
+		    		// Success so call function to process the form
+		    		console.log(data);
+		    		Backbone.trigger('fileUploadedEvent', data);
+		    	}
+		    	else
+		    	{
+	    			Backbone.trigger('fileErrorEvent');
+		    		console.log('ERRORS: ' + data.error);
+					
+					alert('Het bestand dat je hebt gekozen is te groot, verklein het bestand en probeer opnieuw');
+		    	}
+		    },
+		    error: function(jqXHR, textStatus, errorThrown)
+		    {
+
+	           alert('Het bestand dat je hebt gekozen is te groot, verklein het bestand en probeer opnieuw');
+	
+	    		Backbone.trigger('fileErrorEvent');		    	
+		    	// Handle errors here
+		    	console.log('ERRORS: ' + textStatus);
+		    	// STOP LOADING SPINNER
+		    }
+		});	
+    },
+
+    updateSport: function(sportsModel){
+		$.ajax({
+			url:appData.settings.servicePath + appData.settings.updateSportService,
+			type:'POST',
+			dataType:'json',
+			data: "sport_id="+sportsModel.attributes.sport_id+"&icon="+sportsModel.attributes.icon+"&sport_title="+sportsModel.attributes.sport_title,
+			success:function(data){
+				Backbone.trigger('updateSportModel');
+			}, error: function(){
+				console.log("error");
+			}
+		});	
+    },
+
+    removeUserFromActivity: function(user_id, activity_id){
+		$.ajax({
+			url:appData.settings.servicePath + appData.settings.removeUserFromActivityService,
+			type:'POST',
+			dataType:'json',
+			data: "user_id="+user_id+"&activity_id="+activity_id,
+			success:function(data){
+				Backbone.trigger('userRemoved');
+			}, error: function(){
+				console.log("error");
+
+			}
+		});	
+    },
+
+    uploadMediaNonNative: function(files){
+	$.ajax({
+		url:appData.settings.servicePath + appData.settings.uploadMediaNonNativeAdminService + "?files",
+		type:'POST',
+		cache: false,
+		dataType:'json',
+		data: files,
+		processData: false, // Don't process the files
+		contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+	    success: function(data, textStatus, jqXHR)
+	    {
+	    	if(typeof data.error === 'undefined')
+	    	{
+	    		// Success so call function to process the form
+	    		Backbone.trigger('fileUploadedEvent', data);
+	    	}
+	    	else
+	    	{
+	    		// Handle errors here
+	    		Backbone.trigger('fileErrorEvent');
+	    		console.log('ERRORS: ' + data.error);
+    		      alert('Het bestand dat je hebt gekozen is te groot, verklein het bestand en probeer opnieuw');
+
+	    	}
+	    },
+	    error: function(jqXHR, textStatus, errorThrown)
+	    {
+	   		Backbone.trigger('fileErrorEvent');
+  			alert('Het bestand dat je hebt gekozen is te groot, verklein het bestand en probeer opnieuw');
+
+  			console.log(jqXHR);
+  			console.log(errorThrown);
+
+	    	// Handle errors here
+	    	console.log('ERRORS: ' + textStatus);
+	    	// STOP LOADING SPINNER
+	    }
+	});	
+}
+
 });

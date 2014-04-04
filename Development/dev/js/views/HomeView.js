@@ -152,8 +152,17 @@ appData.views.HomeView = Backbone.View.extend({
     * Normal Login flow
     */
     userLoggedInHandler: function(){
-        $('#loginForm .error-box', appData.currentPageHTML).removeClass('show').addClass('hide');
-        appData.router.navigate('loading', true);
+        // get location
+        if(navigator.geolocation){
+            $('#facebookLoad').removeClass('hide');
+
+            // First lets get the location
+            Backbone.on('locationError', appData.views.HomeView.locationErrorHandler);
+            appData.services.utilService.getLocationService("login");
+        }else{
+            $('#loginForm .error-box', appData.currentPageHTML).removeClass('show').addClass('hide');
+            appData.router.navigate('loading', true);        
+        }
     },
 
     userLoggedInPasswordErrorHandler: function(){

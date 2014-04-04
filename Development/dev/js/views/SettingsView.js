@@ -149,5 +149,5 @@ appData.views.SettingsView = Backbone.View.extend({
 
       var ft = new FileTransfer();  
       ft.upload(imageURI, appData.settings.servicePath + appData.settings.imageUploadService, appData.views.SettingsView.avatarUploadHandler, null, options);    
-    },
+    }
 });

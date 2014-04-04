@@ -1,14 +1,12 @@
-appData.views.EditView = Backbone.View.extend({
-    tagName: 'div',
-
-
+appData.views.SettingsView = Backbone.View.extend({
     initialize: function () {
-    
+
     },
 
     render: function() {
-    	this.$el.html(this.template({activity: this.model.toJSON()}));
+    	this.$el.html(this.template());
     	appData.settings.currentPageHTML = this.$el;
+
 
       return this;
     }

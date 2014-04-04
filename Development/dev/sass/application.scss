@@ -24,34 +24,6 @@ body {
   clear: both;
 }
 
-/* Error box */
-label.error{
-  background: #da5555;
-  display: block;
-  padding: 10px;
-  margin-bottom: 15px;
-  margin-top: 5px;
-  color: #fff;
-  animation: fadein 0.5s;
-  -moz-animation: fadein 0.5s;
-  -webkit-animation: fadein 0.5s;
-  -o-animation: fadein 0.5s;
-  position: relative;
-}
-label.error:after {
-  bottom: 100%;
-  left: 36px;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-color: rgba(136, 183, 213, 0);
-  border-bottom-color: #da5555;
-  border-width: 7px;
-  margin-left: -25px;
-}
 
 form .cl-btn{
   width: 100% !important;
@@ -187,7 +159,6 @@ form .cl-btn{
 .error-box.show{
 	display: block;
 }
-
 
 #FBloginButton{
   margin-bottom: 10px;
@@ -438,8 +409,32 @@ input.error{
 /**
 * CreateUser
 */
+
+  #facebookLoad{
+    .cl-popover{
+      width: 100%;
+      top: 0;
+      left: 0;
+      border-radius: 0;
+    
+      h4{
+        padding-left: 40px;
+        font-family: "bitteritalic";
+
+      }
+    }
+
+    .cl-loading-wrapper{
+      width: 30px;
+      height: 30px;
+    }
+
+  }
+
 #createUser, #createActivity, #settings{
   background: #2f404b;
+
+
 
   .cl-content{
     height: calc(100% - 140px);
@@ -1267,7 +1262,18 @@ input.error{
     .button-container{
       display: none;
     }
-  } 
+  }
+
+  #createUser{
+    .cl-content{
+      height: calc(100% - 80px);
+    }
+
+    .button-container{
+      display: none;
+    }
+  }
+
 }
 
 

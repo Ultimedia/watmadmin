@@ -1,6 +1,7 @@
 Sport = Backbone.Model.extend({
 	defaults: {
-		"object_class": ""
+		"object_class": "",
+		"icon": ""
 	},
 
 	initialize: function(){

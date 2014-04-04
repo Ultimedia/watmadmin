@@ -3,10 +3,10 @@ appData.views.CreateUserView = Backbone.View.extend({
 	initialize: function () {
         appData.events.createUserEvent.bind("createUserHandler", this.createUserHandler);
         appData.events.createUserErrorEvent.bind("createUserErrorHandler", this.createUserErrorHandler);
-        appData.events.locationHomeEvent.bind('locationSuccesHandler', this.locationSuccesHandler);
         appData.events.locationHomeEvent.bind('locationErrorHandler', this.locationErrorHandler);
         appData.views.CreateUserView.selectedGender = 0;
-        appData.views.LocationError = this.locationErrorHandler;
+        appData.views.CreateUserView.locationErrorHandler = this.locationErrorHandler;
+        appData.views.CreateUserView.locationSuccesHandler = this.locationSuccesHandler;
     }, 
 
     render: function() { 
@@ -96,14 +96,14 @@ appData.views.CreateUserView = Backbone.View.extend({
 				appData.models.userModel.set('password', password);
                 appData.models.userModel.set('age', age);
 
-                if(appData.settings.native){
+
+                 if(navigator.geolocation){
+
+                    $('#facebookLoad').removeClass('hide');
 
                     // First lets get the location
-                    Backbone.on('locationError', appData.views.LocationError)
-                    appData.services.utilService.getLocationService("login");
-
-                    // disable geo FOR NOW UNTIL PHONEGAP IS FIXED
-                    appData.services.phpService.createUser();
+                    Backbone.on('createUserLocationHandler', appData.views.CreateUserView.locationSuccesHandler);
+                    appData.services.utilService.getLocationService("create");
 
                 }else{
                     appData.services.phpService.createUser();
@@ -113,16 +113,14 @@ appData.views.CreateUserView = Backbone.View.extend({
     },
 
     locationSuccesHandler: function(location){
-        console.log('got location');
-
-        appData.models.userModel.set('current_location', location);
+        var myLocation = location.coords.latitude + "," + location.coords.longitude;
+        appData.models.userModel.attributes.current_location = myLocation;
         appData.services.phpService.createUser();
     },
 
     locationErrorHandler: function(){
-        console.log('location error');
 
-         Backbone.off('locationError', locationErrorHandler)
-         appData.services.phpService.createUser();
+        Backbone.off('locationError');
+        appData.services.phpService.createUser();
     }
 });

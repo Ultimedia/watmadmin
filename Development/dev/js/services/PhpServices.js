@@ -426,6 +426,18 @@ appData.services.PhpServices = Backbone.Model.extend({
 		}); 	
   	},
 
+  	updateSport: function(sportModel){
+  	  	$.ajax({
+			url:appData.settings.servicePath + appData.settings.updateSportService,
+			type:'POST',
+			dataType:'json',
+			data: "user_id="+appData.models.userModel.attributes.user_id+"&strength_score="+appData.models.userModel.attributes.strength_score+"&stamina_score="+appData.models.userModel.attributes.stamina_score+"&equipment_score="+appData.models.userModel.attributes.equipment_score,
+			success:function(data){
+				Backbone.trigger('updateAvatarCompleteHandler');
+			}
+		}); 	
+  	},
+
   	getMyChallengesHandler: function(){
   	  	$.ajax({
 			url:appData.settings.servicePath + appData.settings.getMyChallengesService,

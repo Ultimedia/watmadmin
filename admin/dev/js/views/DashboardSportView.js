@@ -9,7 +9,7 @@ appData.views.DashboardSportView = Backbone.View.extend({
 
     	console.log(this.model);
     	// model to template
-    	this.$el.html(this.template({sport: this.model.toJSON(), imagePath: appData.settings.imagePath}));
+    	this.$el.html(this.template({sport: this.model.toJSON(), imagePath: appData.settings.sportsPath}));
         return this;
     }
 

@@ -61,7 +61,10 @@ appData.services.UtilServices = Backbone.Model.extend({
 						appData.events.locationCreateActivityEvent.trigger('locationSuccesHandler', position);
 						break;
 					case "dashboard":
-						Backbone.trigger('getMyLocationHandler');
+						Backbone.trigger('getMyLocationHandler', position);
+						break;
+					case "create":
+						Backbone.trigger('createUserLocationHandler', position);
 						break;
 					}
 				}
