@@ -61,8 +61,94 @@ appData.services.AvatarService = Backbone.Model.extend({
 	},
 
 	levelUp: function(){
-
 		Backbone.trigger('levelUp');
+	},
+
+	generateAvatar: function(userModel){
+		var avatarModel = new Avatar();
+			avatarModel.attributes.strengthDisplay = "";
+			avatarModel.attributes.equipmentDisplay = "";
+
+		// which gender?
+		switch(userModel.attributes.gender){
+			case 0:
+				// female
+				console.log('female avatar');
+				var eScore = parseInt(userModel.attributes.strength_score);
+
+				if(eScore < 20){
+						avatarModel.attributes.strengthDisplay = avatarModel.attributes.female.strength[0];
+				}else if(eScore < 40){
+						avatarModel.attributes.strengthDisplay = avatarModel.attributes.female.strength[1];
+				}else if(eScore < 60){
+						avatarModel.attributes.strengthDisplay = avatarModel.attributes.female.strength[2];
+				}else if(eScore < 80){
+						avatarModel.attributes.strengthDisplay = avatarModel.attributes.female.strength[3];
+				}else if(eScore < 100){
+					avatarModel.attributes.strengthDisplay = avatarModel.attributes.female.strength[4];
+				}else if(eScore > 99){
+					avatarModel.attributes.strengthDisplay = avatarModel.attributes.female.strength[5];
+				}
+
+				var sScore = parseInt(userModel.attributes.equipment_score);
+
+				if(sScore < 20){
+						avatarModel.attributes.equipmentDisplay = avatarModel.attributes.female.equipment[0];
+				}else if(sScore < 40){
+						avatarModel.attributes.equipmentDisplay = avatarModel.attributes.female.equipment[1];
+				}else if(sScore < 60){
+						avatarModel.attributes.equipmentDisplay = avatarModel.attributes.female.equipment[2];
+				}else if(sScore < 80){
+						avatarModel.attributes.equipmentDisplay = avatarModel.attributes.female.equipment[3];
+				}else if(sScore < 100){
+					avatarModel.attributes.equipmentDisplay = avatarModel.attributes.female.equipment[4];
+				}else if(sScore > 99){
+					avatarModel.attributes.equipmentDisplay = avatarModel.attributes.female.equipment[5];
+				}
+
+			break;
+			case 1:
+
+				// male
+				console.log('male avatar');
+				var eScore = parseInt(userModel.attributes.strength_score);
+
+				if(eScore < 20){
+					alert('ja');
+					avatarModel.attributes.strengthDisplay = avatarModel.attributes.male.strength[0];
+				}else if(eScore < 40){
+						avatarModel.attributes.strengthDisplay = avatarModel.attributes.male.strength[1];
+				}else if(eScore < 60){
+						avatarModel.attributes.strengthDisplay = avatarModel.attributes.male.strength[2];
+				}else if(eScore < 80){
+						avatarModel.attributes.strengthDisplay = avatarModel.attributes.male.strength[3];
+				}else if(eScore < 100){
+					avatarModel.attributes.strengthDisplay = avatarModel.attributes.male.strength[4];
+				}else if(eScore > 99){
+					avatarModel.attributes.strengthDisplay = avatarModel.attributes.male.strength[5];
+				}
+
+				var sScore = parseInt(userModel.attributes.equipment_score);
+
+				if(sScore < 20){
+					avatarModel.attributes.equipmentDisplay = avatarModel.attributes.male.equipment[0];
+				}else if(sScore < 40){
+					avatarModel.attributes.equipmentDisplay = avatarModel.attributes.male.equipment[1];
+				}else if(sScore < 60){
+					avatarModel.attributes.equipmentDisplay = avatarModel.attributes.male.equipment[2];
+				}else if(sScore < 80){
+					avatarModel.attributes.equipmentDisplay = avatarModel.attributes.male.equipment[3];
+				}else if(sScore < 100){
+					avatarModel.attributes.equipmentDisplay = avatarModel.attributes.male.equipment[4];
+				}else if(sScore > 99){
+					avatarModel.attributes.equipmentDisplay = avatarModel.attributes.male.equipment[5];
+				}
+
+			break;
+		}
+		console.log(avatarModel);
+
+		return avatarModel;
 	}
 
 });

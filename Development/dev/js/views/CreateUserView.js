@@ -95,7 +95,7 @@ appData.views.CreateUserView = Backbone.View.extend({
 				appData.models.userModel.set('email', email);
 				appData.models.userModel.set('password', password);
                 appData.models.userModel.set('age', age);
-
+                appData.models.userModel.set('gender', gender);
 
                  if(navigator.geolocation){
 

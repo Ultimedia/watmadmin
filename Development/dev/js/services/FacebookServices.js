@@ -138,6 +138,7 @@ appData.services.FacebookServices = Backbone.Model.extend({
 			}else{
 				gender = 0;
 			}
+
 			appData.models.userModel.attributes.gender = gender;
 			appData.models.userModel.attributes.facebook_id = response.id;
 

@@ -72,7 +72,6 @@ appData.services.PhpServices = Backbone.Model.extend({
 	},
 
 	createUser: function(){
-		console.log('hier');
 
 		$.ajax({
 			url:appData.settings.servicePath + appData.settings.addUserService,

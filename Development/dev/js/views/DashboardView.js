@@ -302,8 +302,6 @@ appData.views.DashboardView = Backbone.View.extend({
           icon: appData.settings.iconPath + "my-map-icon@x2.png"
         });
         appData.views.DashboardView.markers.push(userMarker);
-    
-        alert('hier');
     },
 
     clearMarkers: function(){

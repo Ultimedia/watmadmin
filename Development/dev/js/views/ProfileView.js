@@ -55,7 +55,7 @@ appData.views.ProfileView = Backbone.View.extend({
             view = new appData.views.ProfileFriendsView();
           break;
         }
-
+        $('#profileContent', appData.settings.currentPageHTML).empty()
         $('#profileContent', appData.settings.currentPageHTML).empty().append(view.render().$el);
         this.currentActivityPage = selectedPage;
     } 

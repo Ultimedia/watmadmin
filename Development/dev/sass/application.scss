@@ -24,6 +24,37 @@ body {
   clear: both;
 }
 
+/* Error box */
+label.error{
+  background: #da5555;
+  display: block;
+  padding: 8px;
+  margin-bottom: 15px;
+  margin-top: 5px;
+  color: #fff;
+  animation: fadein 0.5s;
+  -moz-animation: fadein 0.5s;
+  -webkit-animation: fadein 0.5s;
+  -o-animation: fadein 0.5s;
+  position: relative;
+  font-size: 13px;
+  font-weight: 100;
+  clear:both;
+}
+label.error:after {
+  bottom: 100%;
+  left: 36px;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(136, 183, 213, 0);
+  border-bottom-color: #da5555;
+  border-width: 7px;
+  margin-left: -25px;
+}
 
 form .cl-btn{
   width: 100% !important;
@@ -1331,6 +1362,7 @@ input.error{
       width: 30%;
       position: absolute;
       top: 30%;
+      z-index: 1000;
 
       h4{
         text-transform: uppercase;
@@ -1344,11 +1376,25 @@ input.error{
   }
 
   #avatar{
-    background: #ededed;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 80px;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    .avatar-container{
+      #avatarDisplay, #equipmentDisplay{
+        position: relative;
+        z-index: 5;
+      }
+
+      #avatarFloor{
+        height: 150px;
+        position: fixed;
+        width: 100%;
+        bottom: 54px;
+        left: 0;
+        background: #ededed;
+        z-index: 1;
+      }
+    }
   }
 }
 
@@ -1507,7 +1553,7 @@ input.error{
       font-family: "source_sans_prosemibold";
       text-transform: uppercase;
       font-size: 12px;
-      text-align:center;
+      text-align:right;
       padding: 10px;
       display: block;
     }
@@ -1534,6 +1580,9 @@ input.error{
 }
 
 
+#profileContent, .avatar-page, #avatarView, #avatar{
+  height: 100%;
+}
 
 
 /** 
