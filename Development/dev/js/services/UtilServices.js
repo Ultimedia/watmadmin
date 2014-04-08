@@ -122,7 +122,6 @@ appData.services.UtilServices = Backbone.Model.extend({
 	    }());
 
 		if(hasStorage){
-			alert('update');
 
         	window.localStorage.setItem("collections", JSON.stringify(appData.collections));
         	window.localStorage.setItem("userModel", JSON.stringify(appData.models.userModel));

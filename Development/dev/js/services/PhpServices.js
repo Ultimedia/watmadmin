@@ -20,6 +20,7 @@ appData.services.PhpServices = Backbone.Model.extend({
 	        	if(data.value === true){
 	        		Backbone.trigger('activityCreated', data.activity_id);
 	        		appData.services.avatarService.addScore("create");
+        			appData.services.challengeService.checkChallenges(appData.models.userModel, false, true, false, false);
 	        	}else{
 
 	        	}
@@ -478,12 +479,14 @@ appData.services.PhpServices = Backbone.Model.extend({
   		});
   	},
 
-  	updateChallenge: function(challenge_id, status){
+  	updateChallenge: function(challenge_id, status, completed){
+  		
+  		
   		$.ajax({
 			url:appData.settings.servicePath + appData.settings.updateChallengeService,
 			type:'POST',
 			dataType:'json',
-			data: "user_id="+appData.models.userModel.attributes.user_id+"&challenge_id="+challenge_id+"&status="+status,
+			data: "user_id="+appData.models.userModel.attributes.user_id+"&challenge_id="+challenge_id+"&status="+JSON.stringify(status)+"&completed="+ completed,
 			success:function(data){
 				Backbone.trigger('updateChallengeScore');
 			}

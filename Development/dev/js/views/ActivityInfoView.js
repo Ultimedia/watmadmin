@@ -34,7 +34,6 @@ appData.views.ActivityInfoView = Backbone.View.extend({
 
     },
     
-
     render: function() { 
     	this.$el.html(this.template(this.model.attributes));
     	appData.settings.currentModuleHTML = this.$el;
@@ -47,7 +46,12 @@ appData.views.ActivityInfoView = Backbone.View.extend({
             var selectedData = $(this).attr('id');
                 selectedData = selectedData.split('-');
                 selectedData = selectedData[1];
+                
                 appData.services.phpService.setGoingToActivity(appData.models.activityModel.attributes.activity_id, selectedData);
+                
+                if(selectedData == 1){
+                    appData.services.challengeService.checkChallenges(appData.models.userModel, true, false, false, true, appData.models.activityModel);
+                }
         });
 
       $('#messageBox', appData.settings.currentPageHTML).addClass('hide');

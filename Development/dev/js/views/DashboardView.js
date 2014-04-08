@@ -1,10 +1,8 @@
 appData.views.DashboardView = Backbone.View.extend({
 
     initialize: function () {
-        console.log(appData.collections);
         console.log(appData.models.userModel);
 
- 
         var that = this;
         this.searching = false;
         this.favouriteSportsFilter = false;
@@ -251,7 +249,6 @@ appData.views.DashboardView = Backbone.View.extend({
         appData.views.DashboardView.markers.push(userMarker);
 
         if(navigator.geolocation &&  appData.settings.network){
-            alert('get loc');
 
             Backbone.on('getMyLocationHandler', this.getMyLocationHandler);
             appData.services.utilService.getLocationService("dashboard");
@@ -259,7 +256,6 @@ appData.views.DashboardView = Backbone.View.extend({
     },
 
     getMyLocationHandler: function(position){
-            alert('ja');
 
 
         Backbone.off('getMyLocationHandler');

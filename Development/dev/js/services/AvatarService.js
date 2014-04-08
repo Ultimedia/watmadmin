@@ -114,14 +114,13 @@ appData.services.AvatarService = Backbone.Model.extend({
 				var eScore = parseInt(userModel.attributes.strength_score);
 
 				if(eScore < 20){
-					alert('ja');
 					avatarModel.attributes.strengthDisplay = avatarModel.attributes.male.strength[0];
 				}else if(eScore < 40){
-						avatarModel.attributes.strengthDisplay = avatarModel.attributes.male.strength[1];
+					avatarModel.attributes.strengthDisplay = avatarModel.attributes.male.strength[1];
 				}else if(eScore < 60){
-						avatarModel.attributes.strengthDisplay = avatarModel.attributes.male.strength[2];
+					avatarModel.attributes.strengthDisplay = avatarModel.attributes.male.strength[2];
 				}else if(eScore < 80){
-						avatarModel.attributes.strengthDisplay = avatarModel.attributes.male.strength[3];
+					avatarModel.attributes.strengthDisplay = avatarModel.attributes.male.strength[3];
 				}else if(eScore < 100){
 					avatarModel.attributes.strengthDisplay = avatarModel.attributes.male.strength[4];
 				}else if(eScore > 99){

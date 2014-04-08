@@ -192,6 +192,7 @@ $(document).on("ready", function () {
       appData.events.locationCreateActivityEvent = _.extend({}, Backbone.Events);
 
       appData.services.avatarService = new appData.services.AvatarService();
+      appData.services.challengeService = new appData.services.CHallengeService();
 
       // Create a new instance of the helperclass
       appData.helpers.phonegapHelper = new appData.views.HelperView();

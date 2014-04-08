@@ -129,6 +129,9 @@ appData.views.ActivityMediaView = Backbone.View.extend({
 
     addPhotoToDatabaseHandler: function(){
 
+      // update
+      appData.services.challengeService.checkChallenges(appData.models.userModel, false, false, true, false);
+
       // get images from database
       Backbone.off('addPhotoToDatabaseHandler');
       appData.services.phpService.getMedia(appData.views.ActivityMediaView.model); 
